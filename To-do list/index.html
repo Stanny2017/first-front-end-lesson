@@ -1,0 +1,271 @@
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>TODO List</title>
+
+  <!-- import or define css here -->
+  <!-- <link rel="stylesheet" href="basic.css"> -->
+  <!--<link rel="stylesheet" type="text/css" href="color.css"/>-->
+  <style>
+    * {
+
+      padding: 0;
+      margin: 0;
+    }
+
+    body {
+      background-image: url("backgound.jpg");
+    }
+
+    .todoapp {
+      margin: 130px 0 20px 0;
+    }
+
+    .todoapp h1 {
+      /*position:absolute;*/
+      /*top: -50px;*/
+      color: rgb(215, 224, 236);
+      width: 100%;
+      font-size: 90px;
+      margin-bottom: 40px;
+    }
+
+    .header {
+      /*background: cornflowerblue;*/
+      text-align: center;
+    }
+
+    .new-todo {
+      /*background: navajowhite;*/
+      margin: 0;
+
+    }
+
+    .new {
+
+      border-radius: 10px;
+      font-size: 20px;
+      padding: 16px 16px 16px 60px;
+      border: none;
+      height: 75px;
+      width: 550px;
+      background: rgba(255, 255, 255, 0.6);
+      box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.03);
+
+    }
+
+    .new:focus {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .main {
+
+      width: 550px;
+      height: auto;
+
+      margin: 0 auto;
+
+    }
+
+    .destroy {
+      float: right;
+      border: 1px;
+      border-radius: 5px;
+      width: 60px;
+      height: 35px;
+      font-size: 20px;
+      color: cornflowerblue;
+      background: rgba(226, 218, 218, 0);
+      vertical-align: middle;
+    }
+
+    /*.edit {*/
+      /*background: url("File_edit.png");*/
+      /*height: 20px;*/
+      /*width: 20px;*/
+      /*margin-left: 10px;*/
+    /*}*/
+
+    .todo-list {
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.78);
+      height: auto;
+      font-size: 20px;
+    }
+
+    .toggle {
+      vertical-align: middle;
+    }
+
+    ul li {
+      border-top: skyblue 1px;
+      padding-left: 20px;
+      height: 35px;
+      line-height: 35px;
+      list-style: none;
+      /*color: lightslategray;加了删除线时的效果*/
+      color: #5f6061;
+    }
+
+    ul li label {
+      margin-left: 20px;
+    }
+
+    ul li input {
+      width: 20px;
+      height: 20px;
+    }
+
+    .info {
+      margin: 65px auto 0;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 16px;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+      text-align: center;
+    }
+
+    .info p {
+      line-height: 1;
+    }
+
+    .info a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 400;
+    }
+
+    .info a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+<!-- implement your view here -->
+<section class="todoapp">
+  <header class="header">
+    <h1>TO-do list</h1>
+    <div class="new-todo">
+      <input type="text" class="new" id="things-todo" placeholder="what needs to be done?">
+    </div>
+  </header>
+  <section class="main">
+    <ul class="todo-list" id="todo-list">
+    </ul>
+  </section>
+  <!--<footer class="footer">-->
+  <!--<span class="todo-count"><strong>0</strong> item left</span>-->
+  <!--<ul class="filters">-->
+  <!--<li>-->
+  <!--<a class="selected" href="#/">All</a>-->
+  <!--</li>-->
+  <!--<li>-->
+  <!--<a href="#/active">Active</a>-->
+  <!--</li>-->
+  <!--<li>-->
+  <!--<a href="#/completed">Completed</a>-->
+  <!--</li>-->
+  <!--</ul>-->
+  <!--<button class="clear-completed">Clear completed</button>-->
+  <!--</footer>-->
+</section>
+<footer class="info">
+  <p>Font-end Lesson02 homework</p>
+  <p>Written by <a href="https://github.com/Stanny2017?tab=repositories">Stanny</a></p>
+  <p>Reference <a href="https://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/001434501245426ad4b91f2b880464ba876a8e3043fc8ef000">lxf</a></p>
+  <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+</footer>
+<!-- import or define script here -->
+<script>
+  /*
+   * 添加功能：
+   * 1.背景图片 √
+   * 2.点击输入框，高亮显示 √
+   * 3.编辑功能  X
+   * 4.增加footer：装逼的版权信息 √
+   * 5.删除前后的颜色变化 √
+   * //TODO
+   * - 增加剩余任务的计数，一键清空列表中已完成项
+   * - 增加存储功能，用户再次打开后之前的数据不丢失
+   * - 增加存档按钮，保存用户当天的内容列表或者一段时间的列表
+   */
+  alert("Tip：点击确定后，按下F11,全屏浏览效果更好");
+  //输入框回车触发的事件 创建元素，设置属性，添加元素
+  document.getElementById("things-todo").addEventListener("keydown", function (event) {
+    var thingsTodo = document.getElementById("things-todo").value;
+    if (event.keyCode == "13" && thingsTodo != "") {
+      //li
+      var li = document.createElement("li");
+      var text = document.createTextNode(thingsTodo);
+      var list_id = thingsTodo + "_li";
+      li.setAttribute("id", list_id);
+      li.setAttribute("class", "todo");
+      //div
+      var div = document.createElement("div");
+      div.setAttribute("class", "view");
+      var div_id = thingsTodo + "_div";
+      div.setAttribute("id", div_id);
+      var input = document.createElement("input");
+      input.setAttribute("class", "toggle");
+      var input_id = thingsTodo + "_input";
+      input.setAttribute("id", input_id);
+      input.setAttribute("type", "checkbox");
+      //label
+      var label = document.createElement("label");
+      var label_id = thingsTodo + "_label";
+      label.setAttribute("id", label_id);
+      label.appendChild(text);
+      //del button
+      var button = document.createElement("button");
+      button.setAttribute("class", "destroy");
+      button.setAttribute("id", thingsTodo);
+      var btntext = document.createTextNode("X");
+      button.appendChild(btntext);
+      //edit_button
+      var edit_button = document.createElement("button");
+      var edit_id = thingsTodo + "_edit";
+      edit_button.setAttribute("id", edit_id);
+      edit_button.setAttribute("class", "edit");
+      var edit_btntext = document.createTextNode("...");
+      edit_button.appendChild(edit_btntext);
+
+
+      div.appendChild(input);
+      div.appendChild(label);
+      //div.appendChild(edit_button);
+      div.appendChild(button);
+      li.appendChild(div);
+      
+      var todolist = document.getElementById("todo-list");
+      todolist.appendChild(li);
+      //添加完成后清空输入列表便于再次输入
+      document.getElementById("things-todo").value = "";
+      
+      //为列表项前的复选框增加点击事件，复选框选中状态添加删除线，并改变字体颜色为暗灰，反之恢复之前的状态。
+      document.getElementById(input_id).addEventListener("click", function () {
+        var nextnode = document.getElementById(input_id).nextSibling;
+        if (this.checked) {
+          nextnode.style.textDecoration = "line-through";
+          nextnode.style.color = "lightslategray";
+        } else {
+          nextnode.style.textDecoration = "";
+          nextnode.style.color = "#5f6061";
+        }
+      });
+
+      //增加可修改的按钮（实际使用过程中要不要加？-要）
+      //document.getElementById(edit_id).addEventListener("click",function () {
+      //          //TODO
+      //              
+      //});
+      
+      //为删除按钮添加点击事件
+      document.getElementById(thingsTodo).addEventListener("click", function () {
+        var parent = document.getElementById("todo-list");
+        var child = document.getElementById(list_id);
+        parent.removeChild(child);
+      });
+    }
+  });
+</script>
+</body>
+</html>
